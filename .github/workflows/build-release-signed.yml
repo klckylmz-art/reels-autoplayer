@@ -11,6 +11,10 @@ on:
       - 'gradle.properties'
       - '.github/workflows/build-release-signed.yml'
 
+concurrency:
+  group: signed-release-main
+  cancel-in-progress: true
+
 jobs:
   build-release:
     runs-on: ubuntu-latest
@@ -43,7 +47,7 @@ jobs:
             -keyalg RSA \
             -keysize 2048 \
             -validity 10000 \
-            -dname "CN=Reels AutoPlayer, OU=Mobile, O=Yilmaz, L=Istanbul, ST=Istanbul, C=TR"
+            -dname "CN=Reels AutoPlayer WebView, OU=Mobile, O=Yilmaz, L=Istanbul, ST=Istanbul, C=TR"
 
       - name: Locate Android build tools
         id: buildtools
@@ -51,16 +55,11 @@ jobs:
         run: |
           BUILD_TOOLS=$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -n 1)
           echo "path=$BUILD_TOOLS" >> "$GITHUB_OUTPUT"
-          echo "Using $BUILD_TOOLS"
 
       - name: Zipalign release APK
         run: |
           UNSIGNED=$(find app/build/outputs/apk/release -name '*unsigned*.apk' -o -name 'app-release.apk' | head -n 1)
-          if [ -z "$UNSIGNED" ]; then
-            echo "Release APK not found"
-            find app/build/outputs -maxdepth 5 -type f -print
-            exit 1
-          fi
+          test -n "$UNSIGNED"
           "${{ steps.buildtools.outputs.path }}/zipalign" -f -p 4 "$UNSIGNED" app-release-aligned.apk
 
       - name: Sign release APK
@@ -70,16 +69,16 @@ jobs:
             --ks-key-alias reels-autoplayer \
             --ks-pass pass:reelsautoplayer2026 \
             --key-pass pass:reelsautoplayer2026 \
-            --out Instagram-Reels-AutoPlayer-Release.apk \
+            --out Instagram-Reels-AutoPlayer-WebView-v2.apk \
             app-release-aligned.apk
 
       - name: Verify APK signature
         run: |
-          "${{ steps.buildtools.outputs.path }}/apksigner" verify --verbose --print-certs Instagram-Reels-AutoPlayer-Release.apk
+          "${{ steps.buildtools.outputs.path }}/apksigner" verify --verbose --print-certs Instagram-Reels-AutoPlayer-WebView-v2.apk
 
       - name: Upload signed release APK
         uses: actions/upload-artifact@v4
         with:
-          name: Instagram-Reels-AutoPlayer-Signed-Release
-          path: Instagram-Reels-AutoPlayer-Release.apk
+          name: Instagram-Reels-AutoPlayer-WebView-v2-Signed
+          path: Instagram-Reels-AutoPlayer-WebView-v2.apk
           if-no-files-found: error
