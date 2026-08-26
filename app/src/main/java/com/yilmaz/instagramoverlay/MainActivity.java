@@ -161,7 +161,8 @@ public class MainActivity extends Activity {
 
     private void collectRound(int round, int maxRounds) {
         String harvestJs = "(function(){" +
-                "return [...new Set([...document.querySelectorAll('a[href*=\\\"/reel/\\\"]')].map(a=>{try{const u=new URL(a.href,location.origin);const m=u.pathname.match(/^\\/reel\\/([^/]+)\\/?/);return m?'https://www.instagram.com/reel/'+m[1]+'/':null;}catch(e){return null;}}).filter(Boolean))];" +
+                "const links=[...document.querySelectorAll('a[href*=\\\"/reel/\\\"],a[href*=\\\"/reels/\\\"]')];" +
+                "return [...new Set(links.map(a=>{try{const u=new URL(a.href,location.origin);const m=u.pathname.match(/^\\/(?:reel|reels)\\/([^/]+)\\/?/);return m?'https://www.instagram.com/reel/'+m[1]+'/':null;}catch(e){return null;}}).filter(Boolean))];" +
                 "})()";
 
         webView.evaluateJavascript(harvestJs, value -> {
@@ -285,8 +286,13 @@ public class MainActivity extends Activity {
     private String normalizeReel(String url) {
         if (url == null) return null;
         int p = url.indexOf("/reel/");
+        int prefixLength = 6;
+        if (p < 0) {
+            p = url.indexOf("/reels/");
+            prefixLength = 7;
+        }
         if (p < 0) return null;
-        int start = p + 6;
+        int start = p + prefixLength;
         int end = url.indexOf('/', start);
         if (end < 0) end = url.length();
         if (end <= start) return null;
