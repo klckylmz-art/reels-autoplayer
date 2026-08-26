@@ -162,7 +162,7 @@ public class MainActivity extends Activity {
     private void collectRound(int round, int maxRounds) {
         String harvestJs = "(function(){" +
                 "const out=new Set();" +
-                "const add=(s)=>{if(!s)return;try{s=String(s).replace(/\\\\\//g,'/');const re=/\\/(?:reel|reels)\\/([A-Za-z0-9_-]{5,})/g;let m;while((m=re.exec(s))!==null){out.add('https://www.instagram.com/reel/'+m[1]+'/');}}catch(e){}};" +
+                "const add=(s)=>{if(!s)return;try{s=String(s).split(String.fromCharCode(92,47)).join('/');for(const tag of ['/reel/','/reels/']){let pos=0;while((pos=s.indexOf(tag,pos))>=0){const start=pos+tag.length;let end=start;while(end<s.length&&((s.charCodeAt(end)>=48&&s.charCodeAt(end)<=57)||(s.charCodeAt(end)>=65&&s.charCodeAt(end)<=90)||(s.charCodeAt(end)>=97&&s.charCodeAt(end)<=122)||s[end]=='_'||s[end]=='-'))end++;if(end-start>=5)out.add('https://www.instagram.com/reel/'+s.substring(start,end)+'/');pos=end>start?end:start+1;}}}catch(e){}};" +
                 "document.querySelectorAll('[href]').forEach(el=>add(el.getAttribute('href')));" +
                 "add(document.documentElement.outerHTML);" +
                 "document.querySelectorAll('script').forEach(s=>add(s.textContent));" +
