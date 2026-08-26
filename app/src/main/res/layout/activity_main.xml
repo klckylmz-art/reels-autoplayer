@@ -3,50 +3,91 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="24dp"
-    android:gravity="center_horizontal"
-    android:background="#0A0A0B">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Instagram Reels AutoPlayer"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:textColor="#FFFFFF"
-        android:gravity="center"
-        android:layout_marginTop="40dp"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Instagram'ın kendi uygulamasının üstünde çalışır. WebView ve ayrı Instagram girişi yoktur."
-        android:textSize="15sp"
-        android:textColor="#BBBBBB"
-        android:gravity="center"
-        android:layout_marginTop="16dp"/>
-
-    <Button
-        android:id="@+id/btnAccessibility"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:text="1. ACCESSIBILITY İZNİNİ AÇ"
-        android:layout_marginTop="32dp"/>
-
-    <Button
-        android:id="@+id/btnInstagram"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:text="2. INSTAGRAM'I AÇ"
-        android:layout_marginTop="12dp"/>
+    android:background="#000000">
 
     <TextView
         android:id="@+id/statusText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="İzin açılınca Instagram üzerinde küçük kontrol paneli görünecek."
-        android:textColor="#8ED49A"
-        android:textSize="14sp"
-        android:gravity="center"
-        android:layout_marginTop="24dp"/>
+        android:padding="8dp"
+        android:text="Instagram açılıyor…"
+        android:textColor="#FFFFFF"
+        android:textSize="13sp"
+        android:background="#111114" />
+
+    <WebView
+        android:id="@+id/webView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#000000" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp"
+        android:background="#111114">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnCollect"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:text="Reels Topla" />
+
+            <Button
+                android:id="@+id/btnPrev"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:text="◀" />
+
+            <Button
+                android:id="@+id/btnPlayPause"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:text="Play/Pause" />
+
+            <Button
+                android:id="@+id/btnNext"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:text="▶" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnAuto"
+                android:layout_width="0dp"
+                android:layout_height="46dp"
+                android:layout_weight="1"
+                android:text="AUTO: AÇIK" />
+
+            <Button
+                android:id="@+id/btnLoop"
+                android:layout_width="0dp"
+                android:layout_height="46dp"
+                android:layout_weight="1"
+                android:text="LOOP: AÇIK" />
+
+            <Button
+                android:id="@+id/btnInstagramHome"
+                android:layout_width="0dp"
+                android:layout_height="46dp"
+                android:layout_weight="1"
+                android:text="Instagram" />
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>
