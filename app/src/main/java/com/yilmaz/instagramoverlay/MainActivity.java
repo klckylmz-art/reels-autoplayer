@@ -156,13 +156,17 @@ public class MainActivity extends Activity {
         scanRunning = true;
         collectedDuringScan.clear();
         statusText.setText("Reels taranıyor… Profilin Reels sekmesinde kal.");
-        collectRound(0, 16);
+        collectRound(0, 20);
     }
 
     private void collectRound(int round, int maxRounds) {
         String harvestJs = "(function(){" +
-                "const links=[...document.querySelectorAll('a[href*=\\\"/reel/\\\"],a[href*=\\\"/reels/\\\"]')];" +
-                "return [...new Set(links.map(a=>{try{const u=new URL(a.href,location.origin);const m=u.pathname.match(/^\\/(?:reel|reels)\\/([^/]+)\\/?/);return m?'https://www.instagram.com/reel/'+m[1]+'/':null;}catch(e){return null;}}).filter(Boolean))];" +
+                "const out=new Set();" +
+                "const add=(s)=>{if(!s)return;try{s=String(s).replace(/\\\\\//g,'/');const re=/\\/(?:reel|reels)\\/([A-Za-z0-9_-]{5,})/g;let m;while((m=re.exec(s))!==null){out.add('https://www.instagram.com/reel/'+m[1]+'/');}}catch(e){}};" +
+                "document.querySelectorAll('[href]').forEach(el=>add(el.getAttribute('href')));" +
+                "add(document.documentElement.outerHTML);" +
+                "document.querySelectorAll('script').forEach(s=>add(s.textContent));" +
+                "return [...out];" +
                 "})()";
 
         webView.evaluateJavascript(harvestJs, value -> {
@@ -180,8 +184,15 @@ public class MainActivity extends Activity {
                 return;
             }
 
-            webView.evaluateJavascript("window.scrollTo(0, document.documentElement.scrollHeight); true;", null);
-            handler.postDelayed(() -> collectRound(round + 1, maxRounds), 850);
+            String scrollJs = "(function(){" +
+                    "window.scrollBy(0,Math.max(innerHeight*0.85,600));" +
+                    "const els=[...document.querySelectorAll('*')].filter(e=>e.scrollHeight>e.clientHeight+200);" +
+                    "els.sort((a,b)=>(b.clientHeight*b.clientWidth)-(a.clientHeight*a.clientWidth));" +
+                    "for(const e of els.slice(0,5)){try{e.scrollTop=Math.min(e.scrollHeight,e.scrollTop+Math.max(e.clientHeight*0.85,600));}catch(x){}}" +
+                    "return true;" +
+                    "})()";
+            webView.evaluateJavascript(scrollJs, null);
+            handler.postDelayed(() -> collectRound(round + 1, maxRounds), 900);
         });
     }
 
