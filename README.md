@@ -24,3 +24,6 @@ Instagram'ın native Android uygulaması başka bir uygulamaya videonun gerçek 
 Bu nedenle Auto modu süre tabanlıdır.
 
 Uygulama Instagram kullanıcı adı/şifresini istemez ve saklamaz.
+
+## APK Build
+GitHub Actions içindeki `Build Android APK` workflow'u `app-debug.apk` üretir.
