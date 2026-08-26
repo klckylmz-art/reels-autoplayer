@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Reels AutoPlayer</string>
+    <string name="accessibility_desc">Instagram Reels üzerinde önceki, sonraki ve otomatik kaydırma kontrolleri sağlar.</string>
+</resources>
