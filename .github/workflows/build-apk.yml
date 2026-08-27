@@ -35,7 +35,7 @@ jobs:
           gradle-version: "8.13"
 
       - name: Test, lint, and build
-        run: gradle testDebugUnitTest lintDebug assembleDebug
+        run: gradle testDebugUnitTest compileDebugAndroidTestKotlin lintDebug assembleDebug
 
       - name: Rename APK
         run: cp app/build/outputs/apk/debug/app-debug.apk ReelsPlayer.apk
