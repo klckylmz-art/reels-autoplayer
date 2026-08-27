@@ -33,13 +33,13 @@ class MainActivity : ComponentActivity() {
                 ReelsApp(
                     viewModel = playerViewModel,
                     mediaCount = remember { catalog.load().size },
-                    setImmersive = ::setImmersive
+                    setPlayerSystemUi = ::setPlayerSystemUi
                 )
             }
         }
     }
 
-    private fun setImmersive(enabled: Boolean) {
+    private fun setPlayerSystemUi(enabled: Boolean) {
         val controller = WindowCompat.getInsetsController(window, window.decorView)
         if (enabled) {
             window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
@@ -57,12 +57,12 @@ class MainActivity : ComponentActivity() {
 private fun ReelsApp(
     viewModel: PlayerViewModel,
     mediaCount: Int,
-    setImmersive: (Boolean) -> Unit
+    setPlayerSystemUi: (Boolean) -> Unit
 ) {
     val state by viewModel.state.collectAsState()
 
     LaunchedEffect(state.homeVisible) {
-        setImmersive(!state.homeVisible)
+        setPlayerSystemUi(!state.homeVisible)
     }
 
     BackHandler(enabled = !state.homeVisible) {
