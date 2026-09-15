@@ -1,0 +1,25 @@
+{
+  "savedAt": 1789481776336,
+  "db": {
+    "employees": [
+      {"id":"emp-002","name":"BİLAL YILDIRIM","addedFrom":"2026-09"},
+      {"id":"emp-003","name":"BURAK KIRLI","addedFrom":"2026-09"},
+      {"id":"emp-004","name":"ÇİSİL PİYALE","addedFrom":"2026-09"},
+      {"id":"emp-005","name":"EREN DENİZ","addedFrom":"2026-09"},
+      {"id":"emp-006","name":"ERKAN KİGO","addedFrom":"2026-09"},
+      {"id":"emp-014","name":"HAYATİ ÖZGÜR DALCI","addedFrom":"2026-09"},
+      {"id":"emp-007","name":"HÜSEYİN CANBOY","addedFrom":"2026-09"},
+      {"id":"emp-008","name":"İBRAHİM DEMİR","addedFrom":"2026-09"},
+      {"id":"emp-009","name":"MUSTAFA CAN HODLİOĞLU","addedFrom":"2026-09"},
+      {"id":"emp-010","name":"MUSTAFA YALIN ENGİN","addedFrom":"2026-09"},
+      {"id":"emp-012","name":"SEZER YILDIRIM","addedFrom":"2026-09"},
+      {"id":"emp-013","name":"ŞEVVAL EBRAR USLU","addedFrom":"2026-09"},
+      {"id":"emp-015","name":"TAYYİP CAN DİNLER","addedFrom":"2026-09"},
+      {"id":"emp-016","name":"YASİN ÖZKILINÇ","addedFrom":"2026-09"},
+      {"id":"emp-017","name":"ZEYNEPSU KOLTUK","addedFrom":"2026-09"}
+    ],
+    "months": {"2026-09":{"hours":{},"details":{}}},
+    "_updatedAt": 1789481776336
+  },
+  "salary": null
+}
