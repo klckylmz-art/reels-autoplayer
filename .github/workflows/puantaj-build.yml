@@ -1,0 +1,24 @@
+name: Build Puantaj Portable EXE
+on:
+  push:
+    branches: [puantaj-portable-build]
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: puantaj-desktop
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install
+      - run: npm test
+      - run: npm run dist
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Puantaj-Portable-Windows
+          path: puantaj-desktop/dist/Puantaj-Portable.exe
+          if-no-files-found: error
