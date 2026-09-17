@@ -14,7 +14,7 @@
     let all={gross:0,salary:0,prime:0,advance:0,net:0};
     let h='<thead><tr><th>Çalışan</th><th>Toplam Saat</th><th>Hafta İçi Normal</th><th>Hafta İçi 8 Saat Sonrası</th><th>Cumartesi</th><th>Pazar</th><th>Saat Ücreti</th><th>Brüt Maaş</th><th>Maaş</th><th>Avans</th><th>Net Ödeme</th><th>Prim</th></tr></thead><tbody>';
     emps.forEach(e=>{
-      const t=salaryTotals(e),salary=standardSalary(e),prime=PuantajPayroll.calculatePrime(t.gross,salary);
+      const t=salaryTotals(e),salary=standardSalary(e),prime=PuantajPayroll.calculatePrime(t.net,salary);
       all.gross+=t.gross;all.salary+=salary;all.prime+=prime;all.advance+=t.advance;all.net+=t.net;
       h+='<tr><td><button class="employee-link" data-boss-employee="'+e.id+'">'+esc(e.name)+'</button></td><td>'+fmtNum(t.hours)+'</td><td>'+fmtNum(t.weekdayBase)+'</td><td>'+fmtNum(t.weekdayOt)+'</td><td>'+fmtNum(t.sat)+'</td><td>'+fmtNum(t.sun)+'</td><td><input class="salary-input" type="text" inputmode="decimal" autocomplete="off" value="'+(t.rate||'')+'" data-salary-id="'+e.id+'" placeholder="0,00"></td><td class="money">'+fmtMoney(t.gross)+'</td><td><input class="salary-input" type="text" inputmode="decimal" autocomplete="off" value="'+(salary||'')+'" data-base-salary-id="'+e.id+'" placeholder="0,00" title="Kopyala-yapıştır kullanılabilir"></td><td>'+fmtMoney(t.advance)+'</td><td class="net">'+fmtMoney(t.net)+'</td><td class="money">'+fmtMoney(prime)+'</td></tr>';
     });
