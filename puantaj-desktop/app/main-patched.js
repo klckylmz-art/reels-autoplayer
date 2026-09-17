@@ -46,8 +46,10 @@ function createWindow() {
   });
   win.webContents.on('did-finish-load', async () => {
     try {
-      const patch = fs.readFileSync(path.join(__dirname, 'desktop-patch.js'), 'utf8');
-      await win.webContents.executeJavaScript(patch, true);
+      for (const file of ['desktop-patch.js','payroll-utils.js','salary-prime-patch.js']) {
+        const source = fs.readFileSync(path.join(__dirname, file), 'utf8');
+        await win.webContents.executeJavaScript(source, true);
+      }
     } catch (err) {
       console.error('Puantaj patch yüklenemedi:', err);
     }
