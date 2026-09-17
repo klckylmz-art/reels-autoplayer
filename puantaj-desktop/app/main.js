@@ -44,6 +44,10 @@ function createWindow() {
     }
   });
   win.loadFile(path.join(__dirname, 'index.html'));
+  win.webContents.on('did-finish-load', () => {
+    win.webContents.executeJavaScript("(()=>{const s=document.createElement('script');s.src='desktop-patch.js';document.body.appendChild(s)})()")
+      .catch(() => {});
+  });
 }
 
 app.whenReady().then(() => {
