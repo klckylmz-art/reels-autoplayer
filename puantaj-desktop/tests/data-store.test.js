@@ -8,6 +8,10 @@ const { ensureData, writeData, dataPathFor } = require('../app/data-store');
 function tempDir() { return fs.mkdtempSync(path.join(os.tmpdir(), 'puantaj-')); }
 function writeInitial(dir, obj) { const p = path.join(dir, 'initial.json'); fs.writeFileSync(p, JSON.stringify(obj)); return p; }
 
+test('portable data filename is data.json', () => {
+  assert.equal(path.basename(dataPathFor('C:/Puantaj')), 'data.json');
+});
+
 test('creates JSON from initial data when missing', () => {
   const dir = tempDir(), initial = { db: { employees: [{name:'A'}] }, salary: null };
   const initialPath = writeInitial(dir, initial);
