@@ -1,8 +1,8 @@
 {
   "name": "bar-puantaj-portable",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Portable Windows puantaj application with JSON persistence",
-  "main": "app/main.js",
+  "main": "app/main-patched.js",
   "private": true,
   "scripts": {
     "test": "node --test tests/*.test.js",
