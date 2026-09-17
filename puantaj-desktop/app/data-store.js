@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 function dataPathFor(baseDir) {
-  return path.join(baseDir, 'puantaj_data.json');
+  return path.join(baseDir, 'data.json');
 }
 
 function readJson(file) {
