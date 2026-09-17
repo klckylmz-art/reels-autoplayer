@@ -46,6 +46,19 @@ function createWindow() {
   });
   win.webContents.on('did-finish-load', async () => {
     try {
+      await win.webContents.insertCSS(`
+        .salary-input{
+          background:#fff3d6 !important;
+          border-color:#e4b95f !important;
+          box-shadow:inset 0 0 0 1px rgba(224,154,34,.08);
+        }
+        .salary-input:focus{
+          background:#ffe8ad !important;
+          border-color:#d99516 !important;
+          box-shadow:0 0 0 2px rgba(217,149,22,.16);
+          outline:none;
+        }
+      `);
       for (const file of ['desktop-patch.js','payroll-utils.js','salary-prime-patch.js']) {
         const source = fs.readFileSync(path.join(__dirname, file), 'utf8');
         await win.webContents.executeJavaScript(source, true);
