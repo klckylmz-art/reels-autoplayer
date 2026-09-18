@@ -28,10 +28,10 @@
     #timesheet .work-group-row:first-child th{border-top:0}
     #timesheet .group-entry-note{
       margin-left:10px;
-      font-weight:700;
+      font-weight:800;
       letter-spacing:0;
-      color:#5b6780;
-      font-size:11px;
+      color:#c62828;
+      font-size:12px;
     }
   `;
   document.head.appendChild(style);
@@ -42,8 +42,7 @@
   }
   function groupNote(group){
     const g=G.normalizeGroup(group);
-    if(g==='personel') return 'Çalışma saati girilir. Tam gün için 8 saat girin.';
-    if(g==='sanatci') return 'Günlük ücret girilir.';
+    if(g==='personel') return 'Çalışma saati girilir. Tam gün için 8 girin.';
     return 'Günlük ücret girilir.';
   }
   function roleSelect(emp){
