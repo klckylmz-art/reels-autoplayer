@@ -19,6 +19,6 @@ jobs:
       - run: npm run dist
       - uses: actions/upload-artifact@v4
         with:
-          name: Puantaj-Portable-Windows
-          path: puantaj-desktop/dist/Puantaj-Portable.exe
+          name: Puantaj-Windows
+          path: puantaj-desktop/dist/Puantaj.exe
           if-no-files-found: error
