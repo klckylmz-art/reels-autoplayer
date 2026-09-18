@@ -1,13 +1,48 @@
 (() => {
-  // AYLIK ÖZET GRUPLAMA + MUHASEBE INPUT TAM HÜCRE
+  // AYLIK ÖZET GRUPLAMA + MUHASEBE INPUT / PARA SÜTUN DÜZENİ
   const style=document.createElement('style');
   style.textContent=`
     #bossTable td:has(.salary-input){padding:0!important}
-    #bossTable .salary-input{width:100%!important;height:100%!important;min-height:48px!important;box-sizing:border-box!important;border-radius:0!important;display:block!important;padding:0 14px!important;text-align:right!important}
+    #bossTable .salary-input{width:100%!important;height:100%!important;min-height:48px!important;box-sizing:border-box!important;border-radius:0!important;display:block!important;padding:0 10px!important;text-align:right!important}
+
+    #bossTable.personnel-accounting{width:100%!important;table-layout:fixed!important}
+    #bossTable.personnel-accounting th,#bossTable.personnel-accounting td{overflow:hidden;text-overflow:ellipsis;vertical-align:middle}
+    #bossTable.personnel-accounting th:nth-child(1),#bossTable.personnel-accounting td:nth-child(1){width:14%!important}
+    #bossTable.personnel-accounting th:nth-child(2),#bossTable.personnel-accounting td:nth-child(2){width:6%!important}
+    #bossTable.personnel-accounting th:nth-child(3),#bossTable.personnel-accounting td:nth-child(3){width:7%!important}
+    #bossTable.personnel-accounting th:nth-child(4),#bossTable.personnel-accounting td:nth-child(4){width:9%!important}
+    #bossTable.personnel-accounting th:nth-child(5),#bossTable.personnel-accounting td:nth-child(5){width:6%!important}
+    #bossTable.personnel-accounting th:nth-child(6),#bossTable.personnel-accounting td:nth-child(6){width:5%!important}
+    #bossTable.personnel-accounting th:nth-child(7),#bossTable.personnel-accounting td:nth-child(7){width:9%!important}
+    #bossTable.personnel-accounting th:nth-child(8),#bossTable.personnel-accounting td:nth-child(8){width:9%!important;min-width:105px!important}
+    #bossTable.personnel-accounting th:nth-child(9),#bossTable.personnel-accounting td:nth-child(9){width:9%!important}
+    #bossTable.personnel-accounting th:nth-child(10),#bossTable.personnel-accounting td:nth-child(10){width:7%!important;min-width:90px!important}
+    #bossTable.personnel-accounting th:nth-child(11),#bossTable.personnel-accounting td:nth-child(11){width:9%!important;min-width:115px!important}
+    #bossTable.personnel-accounting th:nth-child(12),#bossTable.personnel-accounting td:nth-child(12){width:8%!important;min-width:95px!important}
+    #bossTable.personnel-accounting td:nth-child(n+8){white-space:nowrap!important}
+
+    #bossTable .payment-value{color:#111!important;font-weight:700!important}
+    #bossTable .prime-positive{color:#15803d!important;font-weight:800!important}
+    #bossTable .prime-negative{color:#b91c1c!important;font-weight:800!important}
+    #bossTable .prime-zero{color:#111!important;font-weight:800!important}
+
     #summary .summary-group-row th{background:#e8eef8!important;color:#243b64!important;text-align:left!important;font-size:12px!important;letter-spacing:.04em!important;padding:8px 12px!important;border-top:2px solid #9fb3d5!important;border-bottom:1px solid #c8d4e7!important}
     #summary .summary-group-row:first-child th{border-top:0!important}
   `;
   document.head.appendChild(style);
+
+  function syncAccountingLayout(){
+    const table=$('#bossTable');
+    if(!table)return;
+    const headers=[...table.querySelectorAll('thead th')].map(x=>x.textContent.trim());
+    const isPersonnel=headers.includes('Saat Ücreti')&&headers.includes('Toplam')&&headers.includes('Prim')&&headers.length===12;
+    table.classList.toggle('personnel-accounting',isPersonnel);
+  }
+  const bossTable=$('#bossTable');
+  if(bossTable){
+    new MutationObserver(syncAccountingLayout).observe(bossTable,{childList:true,subtree:true});
+    syncAccountingLayout();
+  }
 
   const baseRenderSummary=renderSummary;
   function groupInfo(row){
