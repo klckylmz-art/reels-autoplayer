@@ -1,7 +1,7 @@
 {
-  "name": "bar-puantaj-portable",
-  "version": "1.0.1",
-  "description": "Portable Windows puantaj application with JSON persistence",
+  "name": "hayal-kahvesi-puantaj",
+  "version": "1.1.0",
+  "description": "Hayal Kahvesi portable Windows puantaj application with JSON persistence",
   "main": "app/main-patched.js",
   "private": true,
   "scripts": {
@@ -14,11 +14,11 @@
     "electron-builder": "^26.0.12"
   },
   "build": {
-    "appId": "com.puantaj.bar",
-    "productName": "Puantaj",
+    "appId": "com.hayalkahvesi.puantaj",
+    "productName": "Hayal Kahvesi Puantaj",
     "asar": true,
     "files": ["app/**/*", "package.json"],
     "win": {"target": [{"target":"portable","arch":["x64"]}]},
-    "portable": {"artifactName": "Puantaj-Portable.exe"}
+    "portable": {"artifactName": "Puantaj.exe"}
   }
 }
