@@ -17,6 +17,7 @@
     "appId": "com.hayalkahvesi.puantaj",
     "productName": "Hayal Kahvesi Puantaj",
     "asar": true,
+    "compression": "store",
     "files": ["app/**/*", "package.json"],
     "win": {"target": [{"target":"portable","arch":["x64"]}]},
     "portable": {"artifactName": "Puantaj.exe"}
