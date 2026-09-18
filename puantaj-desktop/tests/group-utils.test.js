@@ -1,6 +1,6 @@
 const test=require('node:test');
 const assert=require('node:assert/strict');
-const {normalizeGroup,feeLabel,calculateDailyPayment,calculateGeneralPayment}=require('../app/group-utils');
+const {normalizeGroup,feeLabel,calculateDailyPayment,calculateGeneralPayment,sortByGroupThenName}=require('../app/group-utils');
 
 test('missing or unknown group defaults to personel',()=>{
   assert.equal(normalizeGroup(), 'personel');
@@ -22,4 +22,21 @@ test('artist and security net payment subtract salary and advance from daily fee
 
 test('general payment sums net payments from all three groups',()=>{
   assert.equal(calculateGeneralPayment({personel:12000,sanatci:17000,guvenlik:8000}),37000);
+});
+
+test('monthly timesheet order groups people by role and sorts alphabetically inside each group',()=>{
+  const input=[
+    {name:'ZEYNEP',group:'sanatci'},
+    {name:'BURAK',group:'personel'},
+    {name:'ALİ',group:'guvenlik'},
+    {name:'AYŞE',group:'personel'},
+    {name:'CAN',group:'sanatci'},
+    {name:'BERK',group:'guvenlik'}
+  ];
+  const result=sortByGroupThenName(input).map(x=>x.group+':'+x.name);
+  assert.deepEqual(result,[
+    'personel:AYŞE','personel:BURAK',
+    'sanatci:CAN','sanatci:ZEYNEP',
+    'guvenlik:ALİ','guvenlik:BERK'
+  ]);
 });
