@@ -47,7 +47,7 @@ test('payment is black and prime changes color by sign',()=>{
   assert.match(salaryPatch,/prime-negative/);
   assert.match(salaryPatch,/prime===0\?'prime-zero'/);
   const patch=fs.readFileSync(path.join(__dirname,'../app/summary-ui-patch.js'),'utf8');
-  assert.match(patch,/\.payment-value\{[^}]*color:#111/s);
+  assert.match(patch,/\.payment-value,#bossTable \.net\{[^}]*color:#111/s);
   assert.match(patch,/\.prime-positive\{[^}]*color:#15803d[^}]*font-weight:800/s);
   assert.match(patch,/\.prime-negative\{[^}]*color:#b91c1c[^}]*font-weight:800/s);
 });
