@@ -2,6 +2,7 @@
   // AYLIK ÖZET GRUPLAMA + MUHASEBE INPUT / PARA SÜTUN DÜZENİ
   const style=document.createElement('style');
   style.textContent=`
+    #timesheet th,#timesheet td,#summary th,#summary td,#bossTable th,#bossTable td{border-color:#b8c4d4!important}
     #bossTable td:has(.salary-input){padding:0!important}
     #bossTable .salary-input{width:100%!important;height:100%!important;min-height:48px!important;box-sizing:border-box!important;border-radius:0!important;display:block!important;padding:0 10px!important;text-align:right!important}
 
@@ -13,20 +14,39 @@
     #bossTable.personnel-accounting th:nth-child(4),#bossTable.personnel-accounting td:nth-child(4){width:9%!important}
     #bossTable.personnel-accounting th:nth-child(5),#bossTable.personnel-accounting td:nth-child(5){width:6%!important}
     #bossTable.personnel-accounting th:nth-child(6),#bossTable.personnel-accounting td:nth-child(6){width:5%!important}
-    #bossTable.personnel-accounting th:nth-child(7),#bossTable.personnel-accounting td:nth-child(7){width:9%!important}
-    #bossTable.personnel-accounting th:nth-child(8),#bossTable.personnel-accounting td:nth-child(8){width:9%!important;min-width:105px!important}
-    #bossTable.personnel-accounting th:nth-child(9),#bossTable.personnel-accounting td:nth-child(9){width:9%!important}
-    #bossTable.personnel-accounting th:nth-child(10),#bossTable.personnel-accounting td:nth-child(10){width:7%!important;min-width:90px!important}
-    #bossTable.personnel-accounting th:nth-child(11),#bossTable.personnel-accounting td:nth-child(11){width:9%!important;min-width:115px!important}
-    #bossTable.personnel-accounting th:nth-child(12),#bossTable.personnel-accounting td:nth-child(12){width:8%!important;min-width:95px!important}
+    #bossTable.personnel-accounting th:nth-child(7),#bossTable.personnel-accounting td:nth-child(7){width:8%!important}
+    #bossTable.personnel-accounting th:nth-child(8),#bossTable.personnel-accounting td:nth-child(8){width:10%!important;min-width:105px!important}
+    #bossTable.personnel-accounting th:nth-child(9),#bossTable.personnel-accounting td:nth-child(9){width:8%!important}
+    #bossTable.personnel-accounting th:nth-child(10),#bossTable.personnel-accounting td:nth-child(10){width:8%!important;min-width:90px!important}
+    #bossTable.personnel-accounting th:nth-child(11),#bossTable.personnel-accounting td:nth-child(11){width:10%!important;min-width:115px!important}
+    #bossTable.personnel-accounting th:nth-child(12),#bossTable.personnel-accounting td:nth-child(12){width:9%!important;min-width:95px!important}
     #bossTable.personnel-accounting td:nth-child(n+8){white-space:nowrap!important}
+
+    #bossTable.daily-accounting{width:100%!important;table-layout:fixed!important}
+    #bossTable.daily-accounting th,#bossTable.daily-accounting td{vertical-align:middle;overflow:hidden;text-overflow:ellipsis}
+    #bossTable.daily-accounting th:nth-child(1),#bossTable.daily-accounting td:nth-child(1){width:24%!important}
+    #bossTable.daily-accounting th:nth-child(2),#bossTable.daily-accounting td:nth-child(2){width:9%!important}
+    #bossTable.daily-accounting th:nth-child(3),#bossTable.daily-accounting td:nth-child(3){width:17%!important}
+    #bossTable.daily-accounting th:nth-child(4),#bossTable.daily-accounting td:nth-child(4){width:18%!important}
+    #bossTable.daily-accounting th:nth-child(5),#bossTable.daily-accounting td:nth-child(5){width:14%!important}
+    #bossTable.daily-accounting th:nth-child(6),#bossTable.daily-accounting td:nth-child(6){width:18%!important}
+    #bossTable.daily-accounting td:nth-child(n+3){white-space:nowrap!important}
+
+    #bossTable.general-accounting{width:100%!important;table-layout:fixed!important}
+    #bossTable.general-accounting th:nth-child(1),#bossTable.general-accounting td:nth-child(1){width:22%!important}
+    #bossTable.general-accounting th:nth-child(2),#bossTable.general-accounting td:nth-child(2){width:12%!important}
+    #bossTable.general-accounting th:nth-child(3),#bossTable.general-accounting td:nth-child(3){width:16%!important}
+    #bossTable.general-accounting th:nth-child(4),#bossTable.general-accounting td:nth-child(4){width:14%!important}
+    #bossTable.general-accounting th:nth-child(5),#bossTable.general-accounting td:nth-child(5){width:12%!important}
+    #bossTable.general-accounting th:nth-child(6),#bossTable.general-accounting td:nth-child(6){width:14%!important}
+    #bossTable.general-accounting th:nth-child(7),#bossTable.general-accounting td:nth-child(7){width:10%!important}
 
     #bossTable .payment-value,#bossTable .net{color:#111!important;font-weight:700!important}
     #bossTable .prime-positive{color:#15803d!important;font-weight:800!important}
     #bossTable .prime-negative{color:#b91c1c!important;font-weight:800!important}
     #bossTable .prime-zero{color:#111!important;font-weight:800!important}
 
-    #summary .summary-group-row th{background:#e8eef8!important;color:#243b64!important;text-align:left!important;font-size:12px!important;letter-spacing:.04em!important;padding:8px 12px!important;border-top:2px solid #9fb3d5!important;border-bottom:1px solid #c8d4e7!important}
+    #summary .summary-group-row th{background:#e8eef8!important;color:#243b64!important;text-align:left!important;font-size:12px!important;letter-spacing:.04em!important;padding:8px 12px!important;border-top:2px solid #9fb3d5!important;border-bottom:1px solid #9fb3d5!important}
     #summary .summary-group-row:first-child th{border-top:0!important}
   `;
   document.head.appendChild(style);
@@ -43,7 +63,11 @@
     headers.forEach(th=>{if(th.textContent.trim()==='Net Ödeme')th.textContent='Yapılan Ödeme'});
     const names=headers.map(x=>x.textContent.trim());
     const isPersonnel=names.includes('Saat Ücreti')&&names.includes('Toplam')&&names.includes('Prim')&&names.length===12;
+    const isDaily=names.includes('Geliş')&&names.includes('Maaş')&&names.length===6;
+    const isGeneral=names.includes('Görevi')&&names.includes('Hesaplanan Toplam')&&names.length===7;
     table.classList.toggle('personnel-accounting',isPersonnel);
+    table.classList.toggle('daily-accounting',isDaily);
+    table.classList.toggle('general-accounting',isGeneral);
 
     const primeIndex=names.indexOf('Prim');
     if(primeIndex>=0){
