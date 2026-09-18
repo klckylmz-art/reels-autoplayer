@@ -4,6 +4,7 @@
   else root.HayalGroupUtils=api;
 })(typeof globalThis!=='undefined'?globalThis:this,function(){
   const GROUPS=new Set(['personel','sanatci','guvenlik']);
+  const GROUP_ORDER={personel:0,sanatci:1,guvenlik:2};
   function normalizeGroup(value){
     const v=String(value||'').toLocaleLowerCase('tr-TR');
     return GROUPS.has(v)?v:'personel';
@@ -17,5 +18,13 @@
   function calculateGeneralPayment(values){
     return (+values?.personel||0)+(+values?.sanatci||0)+(+values?.guvenlik||0);
   }
-  return {normalizeGroup,feeLabel,calculateDailyPayment,calculateGeneralPayment};
+  function sortByGroupThenName(list){
+    return [...(list||[])].sort((a,b)=>{
+      const ga=normalizeGroup(a?.group),gb=normalizeGroup(b?.group);
+      const groupDiff=GROUP_ORDER[ga]-GROUP_ORDER[gb];
+      if(groupDiff)return groupDiff;
+      return String(a?.name||'').localeCompare(String(b?.name||''),'tr',{sensitivity:'base'});
+    });
+  }
+  return {normalizeGroup,feeLabel,calculateDailyPayment,calculateGeneralPayment,sortByGroupThenName};
 });
