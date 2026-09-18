@@ -26,12 +26,28 @@ test('summary UI patch groups monthly summary and makes salary input fill cell',
 test('personnel accounting table keeps input columns compact and money columns readable',()=>{
   const patch=fs.readFileSync(path.join(__dirname,'../app/summary-ui-patch.js'),'utf8');
   assert.match(patch,/#bossTable\.personnel-accounting/);
-  assert.match(patch,/nth-child\(7\)[^}]*width:\s*9%/s);
-  assert.match(patch,/nth-child\(9\)[^}]*width:\s*9%/s);
-  assert.match(patch,/nth-child\(8\)[^}]*width:\s*9%/s);
-  assert.match(patch,/nth-child\(10\)[^}]*width:\s*7%/s);
-  assert.match(patch,/nth-child\(11\)[^}]*width:\s*9%/s);
-  assert.match(patch,/nth-child\(12\)[^}]*width:\s*8%/s);
+  assert.match(patch,/nth-child\(7\)[^}]*width:\s*8%/s);
+  assert.match(patch,/nth-child\(9\)[^}]*width:\s*8%/s);
+  assert.match(patch,/nth-child\(8\)[^}]*width:\s*10%/s);
+  assert.match(patch,/nth-child\(10\)[^}]*width:\s*8%/s);
+  assert.match(patch,/nth-child\(11\)[^}]*width:\s*10%/s);
+  assert.match(patch,/nth-child\(12\)[^}]*width:\s*9%/s);
+});
+
+test('artist and security accounting tables use balanced six-column widths',()=>{
+  const patch=fs.readFileSync(path.join(__dirname,'../app/summary-ui-patch.js'),'utf8');
+  assert.match(patch,/#bossTable\.daily-accounting/);
+  assert.match(patch,/daily-accounting th:nth-child\(1\)[^}]*width:\s*24%/s);
+  assert.match(patch,/daily-accounting th:nth-child\(2\)[^}]*width:\s*9%/s);
+  assert.match(patch,/daily-accounting th:nth-child\(3\)[^}]*width:\s*17%/s);
+  assert.match(patch,/daily-accounting th:nth-child\(4\)[^}]*width:\s*18%/s);
+  assert.match(patch,/daily-accounting th:nth-child\(5\)[^}]*width:\s*14%/s);
+  assert.match(patch,/daily-accounting th:nth-child\(6\)[^}]*width:\s*18%/s);
+});
+
+test('table cell borders are visibly stronger across pages',()=>{
+  const patch=fs.readFileSync(path.join(__dirname,'../app/summary-ui-patch.js'),'utf8');
+  assert.match(patch,/#timesheet th,#timesheet td,#summary th,#summary td,#bossTable th,#bossTable td\{[^}]*border-color:#b8c4d4!important/s);
 });
 
 test('personnel accounting uses Toplam and Yapılan Ödeme headings',()=>{
