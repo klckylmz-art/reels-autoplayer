@@ -47,7 +47,7 @@ function createWindow() {
   });
   win.webContents.on('did-finish-load', async () => {
     try {
-      for (const file of ['desktop-patch.js','payroll-utils.js','salary-prime-patch.js','group-utils.js','groups-patch.js']) {
+      for (const file of ['desktop-patch.js','payroll-utils.js','salary-prime-patch.js','group-utils.js','groups-patch.js','timesheet-grouping-patch.js']) {
         const source = fs.readFileSync(path.join(__dirname, file), 'utf8');
         await win.webContents.executeJavaScript(source, true);
       }
