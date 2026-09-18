@@ -13,10 +13,12 @@
     .accounting-tabs{display:flex;gap:7px;margin:0 0 12px;flex-wrap:wrap}
     .accounting-tab{border:1px solid #c8d0dc;background:#fff;color:#4b586c;padding:8px 15px;border-radius:999px;font-weight:800;cursor:pointer}
     .accounting-tab.active{background:#1d4ed8;border-color:#1d4ed8;color:#fff}
-    .salary-input,.daily-fee-input{background:#fff3d6!important;border-color:#e6b45e!important}
-    .salary-input:focus,.daily-fee-input:focus{background:#ffe8ad!important;outline:2px solid #df9d2d;outline-offset:0}
+    .salary-input{background:#fff3d6!important;border-color:#e6b45e!important}
+    .salary-input:focus{background:#ffe8ad!important;outline:2px solid #df9d2d;outline-offset:0}
+    .daily-fee-input{background:#dff7f5!important;border-color:#6fcfc7!important}
+    .daily-fee-input:focus{background:#c9f0ec!important;outline:2px solid #36a99e;outline-offset:0}
     .daily-fee-cell{padding:0;width:86px;min-width:86px}
-    .daily-fee-input{width:84px;height:37px;border:0;text-align:right;padding:0 7px;font-weight:800;color:#6f4300}
+    .daily-fee-input{width:84px;height:37px;border:0;text-align:right;padding:0 7px;font-weight:800;color:#245c58}
     .role-col{position:sticky;left:190px;z-index:3;background:#fff!important;min-width:128px}
     th.role-col{z-index:7;background:#eef2f7!important}
     .role-select{width:112px;border:1px solid #c8d0dc;border-radius:6px;padding:6px;background:#fff;font-weight:800;color:#344054}
@@ -89,12 +91,12 @@
   if(normalized) save();
 
   const baseRenderBoss=renderBoss;
-  let accountingView='general';
+  let accountingView='personel';
   const bossContent=$('#bossContent');
   const accountingTabs=document.createElement('div');
   accountingTabs.className='accounting-tabs';
   accountingTabs.innerHTML=[['general','Genel Özet'],['personel','Personel'],['sanatci','Sanatçı'],['guvenlik','Güvenlik']]
-    .map(([id,label])=>'<button class="accounting-tab '+(id==='general'?'active':'')+'" type="button" data-accounting-view="'+id+'">'+label+'</button>').join('');
+    .map(([id,label])=>'<button class="accounting-tab '+(id==='personel'?'active':'')+'" type="button" data-accounting-view="'+id+'">'+label+'</button>').join('');
   const bossActions=bossContent?.querySelector('.boss-actions');
   if(bossActions) bossActions.insertAdjacentElement('afterend',accountingTabs);
 
