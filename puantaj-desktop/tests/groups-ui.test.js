@@ -5,6 +5,7 @@ const path=require('path');
 
 const patch=fs.readFileSync(path.join(__dirname,'../app/groups-patch.js'),'utf8');
 const grouping=fs.readFileSync(path.join(__dirname,'../app/timesheet-grouping-patch.js'),'utf8');
+const finalUi=fs.readFileSync(path.join(__dirname,'../app/ui-behavior-patch.js'),'utf8');
 const utils=fs.readFileSync(path.join(__dirname,'../app/group-utils.js'),'utf8');
 const main=fs.readFileSync(path.join(__dirname,'../app/main-patched.js'),'utf8');
 
@@ -20,9 +21,9 @@ test('main puantaj is unified and shows editable Görevi column',()=>{
   assert.doesNotMatch(patch,/mainTabs\.insertAdjacentElement\('afterend',groupTabs\)/);
 });
 
-test('accounting has group tabs and Genel Özet is the last tab',()=>{
-  assert.match(patch,/accounting-tabs/);
-  assert.match(patch,/\[\['personel','Personel'\],\['sanatci','Sanatçı'\],\['guvenlik','Güvenlik'\],\['general','Genel Özet'\]\]/);
+test('accounting has group tabs and Genel Özet is moved to the last tab',()=>{
+  assert.match(finalUi,/data-accounting-view="general"/);
+  assert.match(finalUi,/appendChild\(general\)/);
   assert.match(utils,/Sahne Ücreti/);
   assert.match(utils,/Günlük Ücret/);
   assert.match(patch,/Genel Toplam Ödeme/);
