@@ -12,7 +12,7 @@
     const emps=summaryEmployees(),cfg=overtimeConfig();
     $('#weekdayOtMultiplier').value=cfg.weekday;$('#saturdayMultiplier').value=cfg.saturday;$('#sundayMultiplier').value=cfg.sunday;
     let all={gross:0,salary:0,prime:0,advance:0,net:0};
-    let h='<thead><tr><th>Çalışan</th><th>Toplam Saat</th><th>Hafta İçi Normal</th><th>Hafta İçi 8 Saat Sonrası</th><th>Cumartesi</th><th>Pazar</th><th>Saat Ücreti</th><th>Brüt Maaş</th><th>Maaş</th><th>Avans</th><th>Net Ödeme</th><th>Prim</th></tr></thead><tbody>';
+    let h='<thead><tr><th>Çalışan</th><th>Toplam Saat</th><th>Hafta İçi Normal</th><th>Hafta İçi 8 Saat Sonrası</th><th>Cumartesi</th><th>Pazar</th><th>Saat Ücreti</th><th>Toplam</th><th>Maaş</th><th>Avans</th><th>Yapılan Ödeme</th><th>Prim</th></tr></thead><tbody>';
     emps.forEach(e=>{
       const t=salaryTotals(e),salary=standardSalary(e),prime=PuantajPayroll.calculatePrime(t.net,salary);
       all.gross+=t.gross;all.salary+=salary;all.prime+=prime;all.advance+=t.advance;all.net+=t.net;
@@ -20,7 +20,7 @@
     });
     if(!emps.length)h+='<tr><td class="empty" colspan="12">Maaş hesabı yapılacak çalışan yok.</td></tr>';
     $('#bossTable').innerHTML=h+'</tbody>';
-    $('#bossCards').innerHTML=[['Brüt Maaş',fmtMoney(all.gross)],['Maaş',fmtMoney(all.salary)],['Toplam Prim',fmtMoney(all.prime)],['Toplam Avans',fmtMoney(all.advance)],['Net Ödeme',fmtMoney(all.net)]].map(x=>'<div class="card"><small>'+x[0]+'</small><b>'+x[1]+'</b></div>').join('');
+    $('#bossCards').innerHTML=[['Toplam',fmtMoney(all.gross)],['Maaş',fmtMoney(all.salary)],['Toplam Prim',fmtMoney(all.prime)],['Toplam Avans',fmtMoney(all.advance)],['Yapılan Ödeme',fmtMoney(all.net)]].map(x=>'<div class="card"><small>'+x[0]+'</small><b>'+x[1]+'</b></div>').join('');
   };
 
   $('#bossTable').addEventListener('change',async e=>{
