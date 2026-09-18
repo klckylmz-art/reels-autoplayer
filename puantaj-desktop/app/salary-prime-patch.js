@@ -15,12 +15,14 @@
     let h='<thead><tr><th>Çalışan</th><th>Toplam Saat</th><th>Hafta İçi Normal</th><th>Hafta İçi 8 Saat Sonrası</th><th>Cumartesi</th><th>Pazar</th><th>Saat Ücreti</th><th>Toplam</th><th>Maaş</th><th>Avans</th><th>Yapılan Ödeme</th><th>Prim</th></tr></thead><tbody>';
     emps.forEach(e=>{
       const t=salaryTotals(e),salary=standardSalary(e),prime=PuantajPayroll.calculatePrime(t.net,salary);
+      const primeClass=prime>0?'prime-positive':prime<0?'prime-negative':prime===0?'prime-zero':'prime-zero';
       all.gross+=t.gross;all.salary+=salary;all.prime+=prime;all.advance+=t.advance;all.net+=t.net;
-      h+='<tr><td><button class="employee-link" data-boss-employee="'+e.id+'">'+esc(e.name)+'</button></td><td>'+fmtNum(t.hours)+'</td><td>'+fmtNum(t.weekdayBase)+'</td><td>'+fmtNum(t.weekdayOt)+'</td><td>'+fmtNum(t.sat)+'</td><td>'+fmtNum(t.sun)+'</td><td><input class="salary-input" type="text" inputmode="decimal" autocomplete="off" value="'+(t.rate||'')+'" data-salary-id="'+e.id+'" placeholder="0,00"></td><td class="money">'+fmtMoney(t.gross)+'</td><td><input class="salary-input" type="text" inputmode="decimal" autocomplete="off" value="'+(salary||'')+'" data-base-salary-id="'+e.id+'" placeholder="0,00" title="Kopyala-yapıştır kullanılabilir"></td><td>'+fmtMoney(t.advance)+'</td><td class="net">'+fmtMoney(t.net)+'</td><td class="money">'+fmtMoney(prime)+'</td></tr>';
+      h+='<tr><td><button class="employee-link" data-boss-employee="'+e.id+'">'+esc(e.name)+'</button></td><td>'+fmtNum(t.hours)+'</td><td>'+fmtNum(t.weekdayBase)+'</td><td>'+fmtNum(t.weekdayOt)+'</td><td>'+fmtNum(t.sat)+'</td><td>'+fmtNum(t.sun)+'</td><td><input class="salary-input" type="text" inputmode="decimal" autocomplete="off" value="'+(t.rate||'')+'" data-salary-id="'+e.id+'" placeholder="0,00"></td><td class="money">'+fmtMoney(t.gross)+'</td><td><input class="salary-input" type="text" inputmode="decimal" autocomplete="off" value="'+(salary||'')+'" data-base-salary-id="'+e.id+'" placeholder="0,00" title="Kopyala-yapıştır kullanılabilir"></td><td>'+fmtMoney(t.advance)+'</td><td class="payment-value">'+fmtMoney(t.net)+'</td><td class="money '+primeClass+'">'+fmtMoney(prime)+'</td></tr>';
     });
     if(!emps.length)h+='<tr><td class="empty" colspan="12">Maaş hesabı yapılacak çalışan yok.</td></tr>';
     $('#bossTable').innerHTML=h+'</tbody>';
-    $('#bossCards').innerHTML=[['Toplam',fmtMoney(all.gross)],['Maaş',fmtMoney(all.salary)],['Toplam Prim',fmtMoney(all.prime)],['Toplam Avans',fmtMoney(all.advance)],['Yapılan Ödeme',fmtMoney(all.net)]].map(x=>'<div class="card"><small>'+x[0]+'</small><b>'+x[1]+'</b></div>').join('');
+    const totalPrimeClass=all.prime>0?'prime-positive':all.prime<0?'prime-negative':'prime-zero';
+    $('#bossCards').innerHTML=[['Toplam',fmtMoney(all.gross),''],['Maaş',fmtMoney(all.salary),''],['Toplam Prim',fmtMoney(all.prime),totalPrimeClass],['Toplam Avans',fmtMoney(all.advance),''],['Yapılan Ödeme',fmtMoney(all.net),'payment-value']].map(x=>'<div class="card"><small>'+x[0]+'</small><b class="'+x[2]+'">'+x[1]+'</b></div>').join('');
   };
 
   $('#bossTable').addEventListener('change',async e=>{
