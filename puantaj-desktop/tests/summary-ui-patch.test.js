@@ -4,6 +4,7 @@ const fs=require('fs');
 const path=require('path');
 
 const main=fs.readFileSync(path.join(__dirname,'../app/main-patched.js'),'utf8');
+const salaryPatch=fs.readFileSync(path.join(__dirname,'../app/salary-prime-patch.js'),'utf8');
 
 test('main loads summary grouping and full-cell input patch',()=>{
   assert.match(main,/summary-ui-patch\.js/);
@@ -25,10 +26,15 @@ test('summary UI patch groups monthly summary and makes salary input fill cell',
 test('personnel accounting table keeps input columns compact and money columns readable',()=>{
   const patch=fs.readFileSync(path.join(__dirname,'../app/summary-ui-patch.js'),'utf8');
   assert.match(patch,/#bossTable\.personnel-accounting/);
-  assert.match(patch,/nth-child\(7\)[^}]*width:\s*9%/s);   // Saat Ücreti
-  assert.match(patch,/nth-child\(9\)[^}]*width:\s*9%/s);   // Maaş
-  assert.match(patch,/nth-child\(8\)[^}]*width:\s*9%/s);   // Brüt Maaş
-  assert.match(patch,/nth-child\(10\)[^}]*width:\s*7%/s);  // Avans
-  assert.match(patch,/nth-child\(11\)[^}]*width:\s*9%/s);  // Net Ödeme
-  assert.match(patch,/nth-child\(12\)[^}]*width:\s*8%/s);  // Prim
+  assert.match(patch,/nth-child\(7\)[^}]*width:\s*9%/s);
+  assert.match(patch,/nth-child\(9\)[^}]*width:\s*9%/s);
+  assert.match(patch,/nth-child\(8\)[^}]*width:\s*9%/s);
+  assert.match(patch,/nth-child\(10\)[^}]*width:\s*7%/s);
+  assert.match(patch,/nth-child\(11\)[^}]*width:\s*9%/s);
+  assert.match(patch,/nth-child\(12\)[^}]*width:\s*8%/s);
+});
+
+test('personnel accounting uses Toplam instead of Brüt Maaş heading',()=>{
+  assert.match(salaryPatch,/<th>Toplam<\/th>/);
+  assert.doesNotMatch(salaryPatch,/<th>Brüt Maaş<\/th>/);
 });
