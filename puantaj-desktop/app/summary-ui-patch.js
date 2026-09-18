@@ -21,7 +21,7 @@
     #bossTable.personnel-accounting th:nth-child(12),#bossTable.personnel-accounting td:nth-child(12){width:8%!important;min-width:95px!important}
     #bossTable.personnel-accounting td:nth-child(n+8){white-space:nowrap!important}
 
-    #bossTable .payment-value{color:#111!important;font-weight:700!important}
+    #bossTable .payment-value,#bossTable .net{color:#111!important;font-weight:700!important}
     #bossTable .prime-positive{color:#15803d!important;font-weight:800!important}
     #bossTable .prime-negative{color:#b91c1c!important;font-weight:800!important}
     #bossTable .prime-zero{color:#111!important;font-weight:800!important}
@@ -31,18 +31,38 @@
   `;
   document.head.appendChild(style);
 
+  function moneyNumber(text){
+    let s=String(text||'').replace(/[^0-9,.-]/g,'');
+    if(s.includes(','))s=s.replace(/\./g,'').replace(',','.');
+    return Number(s)||0;
+  }
   function syncAccountingLayout(){
     const table=$('#bossTable');
     if(!table)return;
-    const headers=[...table.querySelectorAll('thead th')].map(x=>x.textContent.trim());
-    const isPersonnel=headers.includes('Saat Ücreti')&&headers.includes('Toplam')&&headers.includes('Prim')&&headers.length===12;
+    const headers=[...table.querySelectorAll('thead th')];
+    headers.forEach(th=>{if(th.textContent.trim()==='Net Ödeme')th.textContent='Yapılan Ödeme'});
+    const names=headers.map(x=>x.textContent.trim());
+    const isPersonnel=names.includes('Saat Ücreti')&&names.includes('Toplam')&&names.includes('Prim')&&names.length===12;
     table.classList.toggle('personnel-accounting',isPersonnel);
+
+    const primeIndex=names.indexOf('Prim');
+    if(primeIndex>=0){
+      table.querySelectorAll('tbody tr').forEach(row=>{
+        const cell=row.cells[primeIndex];if(!cell)return;
+        cell.classList.remove('prime-positive','prime-negative','prime-zero');
+        const v=moneyNumber(cell.textContent);
+        cell.classList.add(v>0?'prime-positive':v<0?'prime-negative':'prime-zero');
+      });
+    }
+    document.querySelectorAll('#bossCards small').forEach(x=>{
+      if(x.textContent.includes('Net Ödeme'))x.textContent=x.textContent.replace('Net Ödeme','Yapılan Ödeme');
+    });
   }
   const bossTable=$('#bossTable');
-  if(bossTable){
-    new MutationObserver(syncAccountingLayout).observe(bossTable,{childList:true,subtree:true});
-    syncAccountingLayout();
-  }
+  const bossCards=$('#bossCards');
+  if(bossTable){new MutationObserver(syncAccountingLayout).observe(bossTable,{childList:true,subtree:true});}
+  if(bossCards){new MutationObserver(syncAccountingLayout).observe(bossCards,{childList:true,subtree:true});}
+  syncAccountingLayout();
 
   const baseRenderSummary=renderSummary;
   function groupInfo(row){
