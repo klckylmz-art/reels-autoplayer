@@ -4,6 +4,7 @@ const fs=require('fs');
 const path=require('path');
 
 const patch=fs.readFileSync(path.join(__dirname,'../app/groups-patch.js'),'utf8');
+const grouping=fs.readFileSync(path.join(__dirname,'../app/timesheet-grouping-patch.js'),'utf8');
 const utils=fs.readFileSync(path.join(__dirname,'../app/group-utils.js'),'utf8');
 const main=fs.readFileSync(path.join(__dirname,'../app/main-patched.js'),'utf8');
 
@@ -33,4 +34,15 @@ test('accounting has Genel Özet Personel Sanatçı and Güvenlik tabs',()=>{
 test('daily fee and salary inputs are highlighted',()=>{
   assert.match(patch,/\.salary-input,\.daily-fee-input\{background:#fff3d6/i);
   assert.match(patch,/\.salary-input:focus,\.daily-fee-input:focus\{background:#ffe8ad/i);
+});
+
+test('timesheet group headers explain what to enter for each group',()=>{
+  assert.match(grouping,/Tam gün için 8 saat girin/);
+  assert.match(grouping,/Geldiği gün için sahne ücretini girin/);
+  assert.match(grouping,/Geldiği gün için günlük ücretini girin/);
+});
+
+test('timesheet date header stays visible while scrolling down',()=>{
+  assert.match(grouping,/#timesheet thead th\{[\s\S]*position:sticky[\s\S]*top:0/i);
+  assert.match(grouping,/z-index:\s*8/i);
 });
