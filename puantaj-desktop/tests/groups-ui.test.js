@@ -40,10 +40,11 @@ test('monthly puantaj fee inputs are soft turquoise while salary inputs stay yel
   assert.match(patch,/\.salary-input\{background:#fff3d6!important/i);
 });
 
-test('timesheet group headers explain what to enter for each group',()=>{
-  assert.match(grouping,/Çalışma saati girilir.*Tam gün.*8 saat/i);
-  assert.match(grouping,/SANATÇI[\s\S]*Günlük ücret girilir/i);
-  assert.match(grouping,/GÜVENLİK[\s\S]*Günlük ücret girilir/i);
+test('timesheet group headers use exact entry notes in bold red',()=>{
+  assert.match(grouping,/return 'Çalışma saati girilir\. Tam gün için 8 girin\.'/);
+  assert.match(grouping,/return 'Günlük ücret girilir\.'/);
+  assert.doesNotMatch(grouping,/8 saat girin/);
+  assert.match(grouping,/\.group-entry-note\{[\s\S]*font-weight:\s*800[\s\S]*color:\s*#c62828/i);
 });
 
 test('timesheet date header stays visible while scrolling down',()=>{
