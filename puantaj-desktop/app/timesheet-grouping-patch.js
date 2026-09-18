@@ -4,6 +4,15 @@
 
   const style=document.createElement('style');
   style.textContent=`
+    #timesheet thead th{
+      position:sticky;
+      top:0;
+      z-index:8;
+      background:#eef2f7!important;
+      box-shadow:0 1px 0 #cfd7e3;
+    }
+    #timesheet thead th.fixed-col{z-index:11}
+    #timesheet thead th.role-col{z-index:10}
     #timesheet .work-group-row th{
       position:relative;
       left:auto;
@@ -17,12 +26,25 @@
       border-bottom:1px solid #c8d4e7;
     }
     #timesheet .work-group-row:first-child th{border-top:0}
+    #timesheet .group-entry-note{
+      margin-left:10px;
+      font-weight:700;
+      letter-spacing:0;
+      color:#5b6780;
+      font-size:11px;
+    }
   `;
   document.head.appendChild(style);
 
   function groupLabel(group){
     const g=G.normalizeGroup(group);
     return g==='sanatci'?'SANATÇI':g==='guvenlik'?'GÜVENLİK':'PERSONEL';
+  }
+  function groupNote(group){
+    const g=G.normalizeGroup(group);
+    if(g==='personel') return 'Çalışma saati girilir. Tam gün için 8 saat girin.';
+    if(g==='sanatci') return 'Günlük ücret girilir.';
+    return 'Günlük ücret girilir.';
   }
   function roleSelect(emp){
     const g=G.normalizeGroup(emp.group);
@@ -60,7 +82,7 @@
     emps.forEach(emp=>{
       const group=G.normalizeGroup(emp.group);
       if(group!==previousGroup){
-        h+='<tr class="work-group-row"><th colspan="'+(n+4)+'">'+groupLabel(group)+'</th></tr>';
+        h+='<tr class="work-group-row"><th colspan="'+(n+4)+'">'+groupLabel(group)+'<span class="group-entry-note">'+groupNote(group)+'</span></th></tr>';
         previousGroup=group;
       }
       const t=totals(emp),fees=feeMap(emp),dft=dailyFeeTotals(emp);
