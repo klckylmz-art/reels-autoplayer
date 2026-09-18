@@ -12,7 +12,16 @@ test('program title is Hayal Kahvesi Puantaj',()=>{
   assert.match(patch,/Hayal Kahvesi Puantaj/);
 });
 
-test('group UI contains Personel Sanatçı and Güvenlik',()=>{
+test('main puantaj is unified and shows editable Görevi column',()=>{
+  assert.match(patch,/Görevi/);
+  assert.match(patch,/data-role-id/);
+  assert.match(patch,/role-select/);
+  assert.doesNotMatch(patch,/mainTabs\.insertAdjacentElement\('afterend',groupTabs\)/);
+});
+
+test('accounting has Genel Özet Personel Sanatçı and Güvenlik tabs',()=>{
+  assert.match(patch,/accounting-tabs/);
+  assert.match(patch,/Genel Özet/);
   assert.match(patch,/Personel/);
   assert.match(patch,/Sanatçı/);
   assert.match(patch,/Güvenlik/);
