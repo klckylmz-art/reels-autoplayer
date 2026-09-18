@@ -20,12 +20,9 @@ test('main puantaj is unified and shows editable Görevi column',()=>{
   assert.doesNotMatch(patch,/mainTabs\.insertAdjacentElement\('afterend',groupTabs\)/);
 });
 
-test('accounting has Genel Özet Personel Sanatçı and Güvenlik tabs',()=>{
+test('accounting has group tabs and Genel Özet is the last tab',()=>{
   assert.match(patch,/accounting-tabs/);
-  assert.match(patch,/Genel Özet/);
-  assert.match(patch,/Personel/);
-  assert.match(patch,/Sanatçı/);
-  assert.match(patch,/Güvenlik/);
+  assert.match(patch,/\[\['personel','Personel'\],\['sanatci','Sanatçı'\],\['guvenlik','Güvenlik'\],\['general','Genel Özet'\]\]/);
   assert.match(utils,/Sahne Ücreti/);
   assert.match(utils,/Günlük Ücret/);
   assert.match(patch,/Genel Toplam Ödeme/);
@@ -37,9 +34,9 @@ test('daily fee and salary inputs are highlighted',()=>{
 });
 
 test('timesheet group headers explain what to enter for each group',()=>{
-  assert.match(grouping,/Tam gün için 8 saat girin/);
-  assert.match(grouping,/Geldiği gün için sahne ücretini girin/);
-  assert.match(grouping,/Geldiği gün için günlük ücretini girin/);
+  assert.match(grouping,/Çalışma saati girilir.*Tam gün.*8 saat/i);
+  assert.match(grouping,/SANATÇI[\s\S]*Günlük ücret girilir/i);
+  assert.match(grouping,/GÜVENLİK[\s\S]*Günlük ücret girilir/i);
 });
 
 test('timesheet date header stays visible while scrolling down',()=>{
