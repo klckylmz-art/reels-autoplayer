@@ -29,9 +29,15 @@ test('accounting has group tabs and Genel Özet is moved to the last tab',()=>{
   assert.match(patch,/Genel Toplam Ödeme/);
 });
 
-test('daily fee and salary inputs are highlighted',()=>{
-  assert.match(patch,/\.salary-input,\.daily-fee-input\{background:#fff3d6/i);
-  assert.match(patch,/\.salary-input:focus,\.daily-fee-input:focus\{background:#ffe8ad/i);
+test('accounting opens on Personel by default',()=>{
+  assert.match(patch,/let accountingView='personel'/);
+  assert.match(patch,/id==='personel'\?'active'/);
+});
+
+test('monthly puantaj fee inputs are soft turquoise while salary inputs stay yellow',()=>{
+  assert.match(patch,/\.daily-fee-input\{background:#dff7f5!important/i);
+  assert.match(patch,/\.daily-fee-input:focus\{background:#c9f0ec!important/i);
+  assert.match(patch,/\.salary-input\{background:#fff3d6!important/i);
 });
 
 test('timesheet group headers explain what to enter for each group',()=>{
